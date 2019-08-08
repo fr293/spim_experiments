@@ -7,9 +7,11 @@ import threading
 from Tkinter import *
 import tkFileDialog
 
-def function(mode=1,params=None):
+
+def function(mode=1, params=None):
     # read in data from input csv, and program experiments
 
+    global file_list
     f = Figlet(font='isometric1')
     print f.renderText('Ferg')
     time.sleep(1)
@@ -19,24 +21,21 @@ def function(mode=1,params=None):
 
     print('Welcome to the automated spimm creep test tool.')
     time.sleep(0.5)
-    if mode==1:
+    if mode == 1:
         print('please select the file that contains details of the experiments to be run:')
 
     root = Tk()
     root.withdraw()
     root.attributes("-topmost", True)
-    if mode==1:
+    if mode == 1:
         root.filename = tkFileDialog.askopenfilename(initialdir='C:/', title='Select file',
                                                      filetypes=(('csv files', '*.csv'), ('all files', '*.*')))
         print('success: you have selected ' + root.filename)
         file_array = np.genfromtxt(root.filename, dtype=None, skip_header=1, delimiter=',', encoding=None)
         file_list = file_array.tolist()
 
-
-
-    if mode==2:
+    if mode == 2:
         file_list = params
-
 
     print('please select the folder that you want the raw data to be saved in:')
 
@@ -59,10 +58,12 @@ def function(mode=1,params=None):
         m_thread.join()
     root.destroy()
 
+
 def main():
-    result=True
+    result = True
     function()
     return result
+
 
 if __name__ == '__main__':
     main()

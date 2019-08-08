@@ -4,8 +4,8 @@ import cv2
 import os
 import PySpin
 
-def open_camera(cam):
 
+def open_camera(cam):
     # Retrieve TL device nodemap and print device information
     nodemap_tldevice = cam.GetTLDeviceNodeMap()
 
@@ -43,14 +43,13 @@ def open_camera(cam):
         device_serial_number = node_device_serial_number.GetValue()
         print 'Device serial number retrieved as %s...' % device_serial_number
 
-
-    #vimba_cam = Vimba()
-    #vimba_cam.startup()
-    #camera_ids = vimba_cam.getCameraIds()
-    #camera_object = vimba_cam.getCamera(camera_ids[0])
-    #camera_object.openCamera()
-    #frame0 = camera_object.getFrame()
-    #frame0.announceFrame()
+    # vimba_cam = Vimba()
+    # vimba_cam.startup()
+    # camera_ids = vimba_cam.getCameraIds()
+    # camera_object = vimba_cam.getCamera(camera_ids[0])
+    # camera_object.openCamera()
+    # frame0 = camera_object.getFrame()
+    # frame0.announceFrame()
     return cam
 
 
@@ -68,33 +67,32 @@ def set_exposure(cam, t):
 
     print ('Shutter time set to %s us...\n' % exposure_time_to_set)
 
-    #static_write_register = "10000010000000000000"
-    #cam1_exp_time_base_no_new = int(np.floor((exposure_time / 0.02)))
-    #cam1_exp_time_base_no_new_bin = '{0:012b}'.format(cam1_exp_time_base_no_new)
-    #write_register = hex(int(static_write_register + cam1_exp_time_base_no_new_bin, 2))[2:-1]
-    #camera_object.writeRegister("F0F0081C", write_register)
+    # static_write_register = "10000010000000000000"
+    # cam1_exp_time_base_no_new = int(np.floor((exposure_time / 0.02)))
+    # cam1_exp_time_base_no_new_bin = '{0:012b}'.format(cam1_exp_time_base_no_new)
+    # write_register = hex(int(static_write_register + cam1_exp_time_base_no_new_bin, 2))[2:-1]
+    # camera_object.writeRegister("F0F0081C", write_register)
     return
 
 
 def takepic(cam):
     image_result = cam.GetNextImage()
 
-    #camera_object.startCapture()
-    #frame0.queueFrameCapture()
-    #camera_object.runFeatureCommand('AcquisitionStart')
+    # camera_object.startCapture()
+    # frame0.queueFrameCapture()
+    # camera_object.runFeatureCommand('AcquisitionStart')
     pictime = time.time()
 
-
-    #camera_object.runFeatureCommand('AcquisitionStop')
-    #frame0.waitFrameCapture()
-    #frame = np.ndarray(buffer=frame0.getBufferByteData(), dtype=np.uint8, shape=(frame0.height, frame0.width))
+    # camera_object.runFeatureCommand('AcquisitionStop')
+    # frame0.waitFrameCapture()
+    # frame = np.ndarray(buffer=frame0.getBufferByteData(), dtype=np.uint8, shape=(frame0.height, frame0.width))
 
     image_converted = image_result.Convert(PySpin.PixelFormat_Mono8, PySpin.HQ_LINEAR)
     image_data = image_converted.GetNDArray()
     image_result.Release()
 
     out_frame = image_data.copy()
-    #camera_object.endCapture()
+    # camera_object.endCapture()
     return out_frame, pictime
 
 
@@ -106,5 +104,3 @@ def close_camera(cam):
     cam.EndAcquisition()
     # Deinitialize camera
     cam.DeInit()
-
-
